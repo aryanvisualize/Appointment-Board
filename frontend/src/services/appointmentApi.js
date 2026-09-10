@@ -17,10 +17,17 @@ export const createAppointment = async (data) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
+
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.detail || 'Failed to create appointment');
+
+    const message = Array.isArray(error.detail)
+      ? error.detail.map(err => err.msg).join(', ')
+      : error.detail;
+
+    throw new Error(message || 'Failed to create appointment');
   }
+
   return response.json();
 };
 
@@ -30,10 +37,17 @@ export const updateAppointment = async (id, data) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
+
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.detail || 'Failed to update appointment');
+
+    const message = Array.isArray(error.detail)
+      ? error.detail.map(err => err.msg).join(', ')
+      : error.detail;
+
+    throw new Error(message || 'Failed to update appointment');
   }
+
   return response.json();
 };
 

@@ -1,10 +1,10 @@
-const API_URL = 'http://localhost:8000/api/appointments';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchAppointments = async (date, status) => {
   const params = new URLSearchParams();
   if (date) params.append('date', date);
   if (status) params.append('status', status);
-  
+
   const url = `${API_URL}?${params.toString()}`;
   const response = await fetch(url);
   if (!response.ok) throw new Error('Failed to load appointments');
